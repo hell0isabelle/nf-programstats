@@ -95,3 +95,62 @@ ax.tick_params(colors='gray')
 
 plt.tight_layout()
 plt.show()
+
+# exp vs act
+plt.style.use('dark_background')
+
+labels = [
+    'Onboarding Completion',
+    'Agents Deployed',
+    'Total Event Attendance',
+    'Returning Builders',
+    'Applicant-to-Builder Conversion'
+]
+
+actual = {
+    'Onboarding Completion': 80,
+    'Agents Deployed': (20 / 25) * 100,
+    'Total Event Attendance': (476 / 600) * 100,
+    'Returning Builders': 68,
+    'Applicant-to-Builder Conversion': 50
+}
+
+expected = {
+    'Onboarding Completion': 90,
+    'Agents Deployed': 100,
+    'Total Event Attendance': 100,
+    'Returning Builders': 75,
+    'Applicant-to-Builder Conversion': 60
+}
+
+actual_values = list(actual.values()) + [list(actual.values())[0]]
+expected_values = list(expected.values()) + [list(expected.values())[0]]
+
+num_vars = len(labels)
+angles = np.linspace(0, 2 * np.pi, num_vars, endpoint=False).tolist()
+angles += angles[:1]
+
+fig, ax = plt.subplots(figsize=(8, 8), subplot_kw=dict(polar=True))
+
+ax.plot(angles, actual_values, color='#8a2be2', linewidth=2, label='Actual')
+ax.fill(angles, actual_values, color='#1e90ff', alpha=0.3)
+
+ax.plot(angles, expected_values, color='orange', linewidth=1.5, linestyle='dashed', label='Predicted')
+ax.fill(angles, expected_values, color='orange', alpha=0.1)
+
+ax.set_xticks(angles[:-1])
+ax.set_xticklabels(labels, fontsize=11, color='white')
+ax.set_yticks([20, 40, 60, 80, 100])
+ax.set_yticklabels(['20', '40', '60', '80', '100'], color='white')
+ax.set_ylim(0, 100)
+
+ax.spines['polar'].set_visible(False)
+ax.grid(color='white', linestyle='dotted', linewidth=0.8)
+ax.tick_params(colors='white')
+
+plt.title('Program Performance: Expected vs Actual', size=14, weight='bold', y=1.08, color='white')
+ax.legend(loc='upper right', bbox_to_anchor=(1.3, 1.1), facecolor='black', edgecolor='white', labelcolor='white')
+
+plt.tight_layout()
+plt.show()
+
